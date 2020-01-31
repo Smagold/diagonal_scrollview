@@ -26,6 +26,9 @@ class DiagonalScrollView extends StatefulWidget {
   /// The maximum allowed scale.
   final double maxScale;
 
+  /// Default scale.
+  final double defaultScale;
+
   /// The maximum scroll alongside the 'x' axis.
   final double maxWidth;
 
@@ -46,6 +49,7 @@ class DiagonalScrollView extends StatefulWidget {
     this.onScaleChanged,
     this.minScale: 0.3,
     this.maxScale: 3.0,
+    this.defaultScale: 1.0,
     this.maxWidth: double.infinity,
     this.maxHeight: double.infinity,
     this.flingVelocityReduction: 0.02,
@@ -219,6 +223,12 @@ class _DiagonalScrollViewState extends State<DiagonalScrollView>
   @override
   void initState() {
     super.initState();
+
+    _scale = widget.defaultScale;
+    _tmpScale = widget.defaultScale;
+    if (widget.maxWidth != double.infinity && widget.maxHeight != double.infinity) {
+      _boxZoomOffset = Offset(widget.maxWidth / 2, widget.maxHeight / 2);
+    }
 
     _controller = AnimationController(vsync: this)
       ..addListener(_handleFlingAnimation);
